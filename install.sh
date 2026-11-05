@@ -104,5 +104,18 @@ tlmgr install \
     biblatex \
     ieeetran
 
+# Install Python dependencies for the interpreter that runs the scripts
+echo "Installing Python dependencies..."
+if python3 -m pip install --user -r requirements.txt > /dev/null 2>&1; then
+    echo "Python packages installed for current user"
+elif python3 -m venv .venv 2>/dev/null && .venv/bin/pip install -q -r requirements.txt; then
+    echo "Python packages installed in .venv (use .venv/bin/python3)"
+else
+    echo "error: cannot install Python packages." >&2
+    echo "Install python3-venv and rerun, or run:" >&2
+    echo "  python3 -m pip install --break-system-packages -r requirements.txt" >&2
+    exit 1
+fi
+
 echo "=== Installation complete ==="
 echo "Please restart your terminal or run: export PATH=\"$HOME/.TinyTeX/bin/x86_64-linux:\$PATH\""
