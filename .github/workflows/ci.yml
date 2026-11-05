@@ -81,8 +81,12 @@ jobs:
       - name: Assemble Pages site
         run: |
           mkdir -p site
-          cp output/example/manuscript.pdf output/example/manuscript.docx site/
-          cp output/example/manuscript.html site/index.html
+          cp output/example/*.pdf output/example/*.docx output/example/*.html site/
+          python3 scripts/build_index.py \
+            --source output/example \
+            --site site \
+            --input docs/example/manuscript.md \
+            --profile gost-7.32
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

@@ -77,6 +77,9 @@ class CommandBuilder:
             else:
                 cmd.extend(["--template", str(template_path)])
 
+        if self.format_type == "html" and not intermediate:
+            cmd.extend(["--standalone", "--embed-resources"])
+
         extensions = output_config.get("extensions", [])
         for ext in extensions:
             cmd.append(ext)
