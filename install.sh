@@ -62,8 +62,9 @@ if ! command -v tlmgr &> /dev/null; then
     export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
 fi
 
-# Install required LaTeX packages
+# Install required LaTeX packages (tlmgr refuses to work until it updates itself)
 echo "Installing LaTeX packages..."
+tlmgr update --self
 tlmgr install \
     gost \
     biblatex-gost \
