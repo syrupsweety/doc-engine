@@ -68,40 +68,52 @@ tlmgr update --self
 tlmgr install \
     gost \
     biblatex-gost \
-    collection-fontsrecommended \
-    collection-langcyrillic \
-    amsmath \
-    amsfonts \
-    tools \
-    booktabs \
-    caption \
-    cm-super \
-    cm-unicode \
-    csquotes \
-    ec \
-    enumitem \
-    fancyvrb \
-    float \
-    fontspec \
-    geometry \
-    graphics \
-    hyperref \
-    hyphenat \
-    l3kernel \
-    l3packages \
-    latexmk \
-    listings \
-    setspace \
+    extsizes \
+    babel-russian \
     titlesec \
     titling \
     tocloft \
+    caption \
+    enumitem \
+    fancyhdr \
+    microtype \
+    parskip \
+    etoolbox \
+    hyphenat \
+    setspace \
+    unicode-math \
+    upquote \
+    xurl \
+    geometry \
+    graphics \
+    hyperref \
     xcolor \
     url \
+    float \
+    fancyvrb \
+    listings \
+    booktabs \
+    multirow \
+    amsmath \
+    amsfonts \
+    tools \
+    l3kernel \
+    l3packages \
+    iftex \
+    lm \
     tex-gyre \
     tex-gyre-math \
+    collection-fontsrecommended \
+    collection-langcyrillic \
+    cm-super \
+    cm-unicode \
+    ec \
+    fontspec \
     koma-script \
-    biber \
+    csquotes \
     biblatex \
+    biber \
+    latexmk \
     ieeetran
 
 # Install Python dependencies for the interpreter that runs the scripts
