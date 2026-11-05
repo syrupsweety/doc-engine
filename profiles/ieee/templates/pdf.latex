@@ -1,0 +1,211 @@
+% IEEE Conference Paper Pandoc LaTeX Template
+% Based on IEEEtran class
+
+\documentclass[11pt,a4paper]{article}
+
+% IEEE-like margins
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+
+% ============================================
+% Required packages
+% ============================================
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+$if(lang)$
+\setmainlanguage{$lang$}
+$else$
+\setmainlanguage{english}
+$endif$
+
+% ============================================
+% Bibliography using CSL (via pandoc-citeproc)
+% ============================================
+% CSL bibliography is handled by pandoc with --citeproc flag
+% No biblatex/natbib configuration needed when using CSL
+
+% ============================================
+% Syntax highlighting (required for code blocks)
+% ============================================
+\usepackage{xcolor}
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{240,240,240}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+
+% Syntax highlighting commands
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.50,0.50,0.50}{\textit{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\VariableTok}[1]{#1}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.00,1.00}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{#1}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.50,0.50,0.50}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{#1}
+\newcommand{\InformationTok}[1]{#1}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{1.00,0.50,0.00}{\textbf{#1}}}
+
+% Pandoc tightlist command
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ============================================
+% Graphics - with proper image sizing
+% ============================================
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{float}
+\usepackage[caption=false,font=footnotesize]{subfig}
+% Set default image width to 80% of text width while preserving aspect ratio
+\setkeys{Gin}{width=0.8\linewidth,keepaspectratio}
+% Allow floats to appear inline with text
+\usepackage[section]{placeins}
+
+% ============================================
+% Math
+% ============================================
+\usepackage{amsmath}
+\usepackage{amssymb}
+\interdisplaylinepenalty=2500
+
+% ============================================
+% Algorithms
+% ============================================
+$if(algorithm)$
+\usepackage{algorithm}
+\usepackage{algorithmic}
+$endif$
+
+% ============================================
+% Hyperlinks
+% ============================================
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+    pdftitle={$title$},
+    pdfauthor={$for(author)$$author.name$$sep$, $endfor$}
+}
+
+% ============================================
+% Paragraph formatting
+% ============================================
+\usepackage{indentfirst}
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+
+% ============================================
+% Tables
+% ============================================
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+
+% ============================================
+% Listings
+% ============================================
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+% ============================================
+% Custom commands
+% ============================================
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% ============================================
+% Document metadata
+% ============================================
+\title{$title$}
+
+$if(author)$
+\author{
+$for(author)$
+$author.name$
+$if(author.affiliation)$
+, $author.affiliation$
+$if(author.email)$
+, Email: $author.email$
+$endif$
+$endif$
+$sep$; 
+$endfor$
+}
+$endif$
+
+\begin{document}
+
+% ============================================
+% Title
+% ============================================
+\maketitle
+
+% ============================================
+% Abstract
+% ============================================
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+% ============================================
+% Keywords
+% ============================================
+$if(IEEEkeywords)$
+\begin{IEEEkeywords}
+$IEEEkeywords$
+\end{IEEEkeywords}
+$endif$
+
+% ============================================
+% Main content
+% ============================================
+$body$
+
+% ============================================
+% Bibliography (CSL-generated)
+% ============================================
+$if(bibliography)$
+\begin{center}
+\textbf{References}
+\end{center}
+$body$
+$endif$
+
+% ============================================
+% Biographies
+% ============================================
+$if(IEEEbiography)$
+$for(IEEEbiography)$
+\begin{IEEEbiography}{$IEEEbiography.name$}
+$IEEEbiography.text$
+\end{IEEEbiography}
+$endfor$
+$endif$
+
+\end{document}

@@ -1,0 +1,68 @@
+---
+name: "GOST 7.32-2017 (НИР)"
+description: "GOST 7.32-2017 profile tuned against a real SPbPU research report (НИР)"
+
+output_formats:
+  pdf:
+    engine: "xelatex"
+    template: "templates/gost.tex"
+    extensions: []
+    additional_args:
+      - "--variable=geometry:left=3cm,right=1.5cm,top=2cm,bottom=2cm"
+      - "--variable=mainfont:Liberation Serif"
+      - "--pdf-engine-opt=--shell-escape"
+    bibliography_method: "csl"
+    csl_file: "styles/style-nosort.csl"
+    page_break_between_files: true
+
+  docx:
+    engine: "docx"
+    template: "templates/docx.docx"
+    docx_prepass: true
+    extensions: []
+    additional_args: []
+    bibliography_method: "csl"
+    csl_file: "styles/style-nosort.csl"
+    page_break_between_files: true
+
+  html:
+    page_break_between_files: true
+
+bibliography:
+  method: "csl"
+  csl_file: "styles/style-nosort.csl"
+  options:
+    - "--citeproc"
+
+metadata_defaults:
+  documentclass: "extarticle"
+  lang: "ru-RU"
+  fontsize: "14pt"
+  linestretch: "1.5"
+  papersize: "a4"
+  geometry: "left=3cm,right=1.5cm,top=2cm,bottom=2cm"
+  bibliography: null
+  figPrefix: ""
+  eqPrefix: ""
+  tblPrefix: ""
+  secPrefix: ""
+  # suppress placeholder metadata inherited from profiles/_shared/metadata.yaml
+  author: ""
+  date: ""
+  abstract: ""
+  keywords: ""
+  subject: ""
+  category: ""
+  rights: ""
+  license: ""
+  correspondence: ""
+
+pandoc_options:
+  toc: false
+  toc_depth: 2
+  number_sections: false
+  highlight_style: "tango"
+  reference_location: "document"
+
+filters:
+  - filters/pagebreak.lua

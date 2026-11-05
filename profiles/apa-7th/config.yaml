@@ -1,0 +1,70 @@
+---
+# APA 7th Edition profile configuration
+
+name: "APA 7th Edition"
+description: "American Psychological Association 7th Edition Style"
+
+output_formats:
+  pdf:
+    engine: "xelatex"
+    template: "templates/pdf.latex"
+    extensions:
+      - "--pdf-engine-opt=-shell-escape"
+    additional_args:
+      - "--variable=lang:en-US"
+    page_break_between_files: true
+    
+  html:
+    engine: "html5"
+    template: null
+    extensions: []
+    additional_args:
+      - "--standalone"
+      - "--mathjax"
+      - "--css=https://cdn.jsdelivr.net/npm/pandoc.css@latest"
+    page_break_between_files: true
+    
+  docx:
+    engine: "docx"
+    template: null
+    extensions: []
+    additional_args: []
+
+# Bibliography configuration for APA - uses CSL
+bibliography:
+  method: "csl"
+  csl_file: "styles/apa.csl"
+  options:
+    - "--citeproc"
+
+# Default metadata for APA documents
+metadata_defaults:
+  lang: "en-US"
+  fontsize: "12pt"
+  linestretch: "2"
+  papersize: "letter"
+  geometry: "margin=1in"
+  mainfont: "Times New Roman"
+  sansfont: "Arial"
+  monofont: "Courier New"
+  
+  # APA-specific fields
+  runninghead: ""
+  authornote: ""
+  abstract: ""
+  keywords: ""
+
+# Pandoc options
+pandoc_options:
+  toc: false
+  toc_depth: 2
+  number_sections: false
+  highlight_style: "tango"
+
+# Filters to apply
+filters: []
+
+# Required files for this profile
+required_files:
+  - "templates/pdf.latex"
+  - "styles/apa.csl"

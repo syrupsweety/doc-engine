@@ -1,0 +1,76 @@
+---
+# IEEE Conference Paper profile configuration
+# Based on IEEEtran class for conference proceedings
+
+name: "IEEE Conference"
+description: "IEEE Conference Paper Template (IEEEtran)"
+
+output_formats:
+  pdf:
+    engine: "xelatex"
+    template: "templates/pdf.latex"
+    extensions:
+      - "--pdf-engine-opt=-shell-escape"
+    additional_args:
+      - "--variable=lang:en-US"
+      - "--variable=documentclass:IEEEtran"
+      - "--variable=classoption:onecolumn"
+      - "--variable=fontsize:10pt"
+      - "--variable=geometry:letterpaper"
+    page_break_between_files: true
+    
+  html:
+    engine: "html5"
+    template: null
+    extensions: []
+    additional_args:
+      - "--standalone"
+      - "--mathjax"
+      - "--css=https://cdn.jsdelivr.net/npm/pandoc.css@latest"
+    page_break_between_files: true
+    
+  docx:
+    engine: "docx"
+    template: null
+    extensions: []
+    additional_args:
+      - "--reference-doc=profiles/_shared/reference.docx"
+
+# Bibliography configuration for IEEE - using CSL
+bibliography:
+  method: "csl"
+  csl_file: "styles/ieee.csl"
+  options:
+    - "--citeproc"
+
+# Default metadata for IEEE documents
+metadata_defaults:
+  lang: "en-US"
+  fontsize: "10pt"
+  papersize: "letter"
+  documentclass: "IEEEtran"
+  classoption:
+    - "onecolumn"
+    - "letterpaper"
+  mainfont: "Times New Roman"
+  
+  # IEEE-specific fields
+  IEEEkeywords: ""
+  IEEEtitleabstractindextext: ""
+  IEEEdisplaynontitleabstractindextext: ""
+
+# Pandoc options
+pandoc_options:
+  toc: false
+  toc_depth: 2
+  number_sections: false
+  highlight_style: "pygments"
+
+# Filters to apply
+filters: []
+
+# Required LaTeX packages for this profile
+required_packages:
+  - "IEEEtran"
+  - "biblatex"
+  - "biber"

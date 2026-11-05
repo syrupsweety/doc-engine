@@ -1,0 +1,142 @@
+name: doc-engine
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "docs/**"
+      - "profiles/**"
+      - "scripts/**"
+      - "install.sh"
+      - "Makefile"
+      - "requirements.txt"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Cache TinyTeX
+        uses: actions/cache@v4
+        with:
+          path: ~/.TinyTeX
+          key: ${{ runner.os }}-tinytex-${{ hashFiles('install.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-tinytex-
+
+      - name: Install dependencies
+        run: |
+          chmod +x install.sh
+          ./install.sh
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> "$GITHUB_PATH"
+
+      - name: Verify toolchain
+        run: |
+          pandoc --version | head -1
+          xelatex --version | head -1
+          python3 -c "import yaml; print('pyyaml', yaml.__version__)"
+
+      - name: Render document
+        run: make all
+
+      - name: Verify artifacts
+        run: |
+          ls -la output/example
+          test -s output/example/manuscript.pdf
+          test -s output/example/manuscript.docx
+          test -s output/example/manuscript.html
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuscript
+          path: output/example/
+          retention-days: 30
+
+      - name: Assemble Pages site
+        run: |
+          mkdir -p site
+          cp output/example/manuscript.pdf output/example/manuscript.docx site/
+          cp output/example/manuscript.html site/index.html
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: render
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile scripts
+        run: python -m py_compile scripts/*.py
+
+      - name: Validate profile configs
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+
+          import yaml
+
+          errors = []
+          for config in sorted(Path("profiles").rglob("config.yaml")):
+              try:
+                  yaml.safe_load(config.read_text(encoding="utf-8"))
+                  print(f"ok: {config}")
+              except yaml.YAMLError as exc:
+                  errors.append(f"failed: {config}: {exc}")
+
+          if errors:
+              print("\n".join(errors))
+              sys.exit(1)
+          PY

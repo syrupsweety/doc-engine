@@ -1,0 +1,37 @@
+---
+# Common metadata shared across all profiles
+# These values can be overridden in individual documents
+
+author:
+  - name: "Author Name"
+    email: "author@example.com"
+    affiliation: "Institution Name"
+    department: "Department"
+    location: "City, Country"
+
+date: "\today"
+lang: en-US
+
+# Default rights and licensing
+rights: "© 2024 All rights reserved"
+license: "Creative Commons Attribution 4.0 International"
+
+# Contact information
+correspondence:
+  email: "correspondence@example.com"
+  address: "123 Academic St, University City, Country"
+
+# Abstract (can be overridden)
+abstract: |
+  This is a placeholder abstract. 
+  Override this in your document's YAML front matter.
+
+# Keywords
+keywords:
+  - document-as-code
+  - markdown
+  - pandoc
+
+# Document classification
+subject: "Technical Documentation"
+category: "Research Paper"
