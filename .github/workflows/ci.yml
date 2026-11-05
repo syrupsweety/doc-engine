@@ -27,6 +27,8 @@ concurrency:
 jobs:
   render:
     runs-on: ubuntu-latest
+    env:
+      PANDOC_VERSION: "3.1.11.1"
     steps:
       - name: Checkout
         uses: actions/checkout@v4

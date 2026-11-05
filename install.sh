@@ -31,13 +31,23 @@ sudo apt-get install -y \
 echo "Setting up Git LFS..."
 git lfs install
 
-# Install latest Pandoc from GitHub releases
+# Install Pandoc; PANDOC_VERSION pins the release, otherwise ask GitHub for the latest
 echo "Installing Pandoc..."
-PANDOC_VERSION=$(curl -s https://api.github.com/repos/jgm/pandoc/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
-PANDOC_DEB="pandoc-${PANDOC_VERSION}-1-amd64.deb"
-wget "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/${PANDOC_DEB}" -O /tmp/pandoc.deb
-sudo dpkg -i /tmp/pandoc.deb
-rm /tmp/pandoc.deb
+PANDOC_RELEASE="${PANDOC_VERSION:-}"
+if [ -z "$PANDOC_RELEASE" ]; then
+    PANDOC_RELEASE=$(curl -fsSL --max-time 20 \
+        https://api.github.com/repos/jgm/pandoc/releases/latest 2>/dev/null \
+        | grep -Po '"tag_name": "\K.*?(?=")' || true)
+fi
+if [ -z "$PANDOC_RELEASE" ]; then
+    echo "error: cannot detect the Pandoc release, set PANDOC_VERSION (e.g. 3.1.11.1)" >&2
+    exit 1
+fi
+PANDOC_DEB="pandoc-${PANDOC_RELEASE}-1-amd64.deb"
+echo "Pandoc ${PANDOC_RELEASE}"
+wget -q "https://github.com/jgm/pandoc/releases/download/${PANDOC_RELEASE}/${PANDOC_DEB}" -O /tmp/pandoc.deb
+sudo dpkg -i /tmp/pandoc.deb > /dev/null
+rm -f /tmp/pandoc.deb
 
 # Install TinyTeX
 echo "Installing TinyTeX..."
