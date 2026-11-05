@@ -70,58 +70,39 @@ tlmgr install \
     biblatex-gost \
     collection-fontsrecommended \
     collection-langcyrillic \
-    IEEEtran \
-    biblatex \
-    biber \
-    csquotes \
-    graphics \
-    geometry \
-    hyperref \
-    xcolor \
-    url \
-    bookmark \
-    fontspec \
-    l3packages \
-    l3kernel \
-    koma-script \
-    ec \
+    amsmath \
+    amsfonts \
+    tools \
+    booktabs \
+    caption \
     cm-super \
     cm-unicode \
-    tex-gyre \
-    tex-gyre-math \
-    amsmath \
-    amssymb \
-    listings \
+    csquotes \
+    ec \
+    enumitem \
     fancyvrb \
-    longtable \
     float \
+    fontspec \
+    geometry \
+    graphics \
+    hyperref \
+    hyphenat \
+    l3kernel \
+    l3packages \
     latexmk \
+    listings \
+    setspace \
     titlesec \
     titling \
-    chngcntr \
     tocloft \
-    enumitem \
-    caption \
-    tabularx \
-    hyphenat \
-    scrextend \
-    indentfirst \
-    setspace \
-    booktabs \
-    array
-
-# Install Python dependencies
-echo "Installing Python dependencies..."
-if pip3 install --user -r requirements.txt > /dev/null 2>&1; then
-    echo "Python packages installed for current user"
-elif python3 -m venv .venv 2>/dev/null && .venv/bin/pip install -q -r requirements.txt; then
-    echo "Python packages installed in .venv (use .venv/bin/python3)"
-else
-    echo "error: cannot install Python packages." >&2
-    echo "Install python3-venv and rerun this script, or run:" >&2
-    echo "  pip3 install --break-system-packages -r requirements.txt" >&2
-    exit 1
-fi
+    xcolor \
+    url \
+    tex-gyre \
+    tex-gyre-math \
+    koma-script \
+    biber \
+    biblatex \
+    ieeetran
 
 echo "=== Installation complete ==="
 echo "Please restart your terminal or run: export PATH=\"$HOME/.TinyTeX/bin/x86_64-linux:\$PATH\""
